@@ -1,0 +1,6 @@
+ph_clients_homepage:
+    path:     /
+    defaults: { _controller: PHClientsBundle:Default:index }
+ph_ajouter_client:
+    path:    /ajouter_client
+    defaults: { _controller: PHClientsBundle:Default:ajouter_client }
