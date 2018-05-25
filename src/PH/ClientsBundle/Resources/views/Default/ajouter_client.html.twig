@@ -1,0 +1,139 @@
+{% extends 'PHClientsBundle:Layouts:MasterPage.html.twig' %}
+
+{% block title %}{{ parent() }} - Créer un nouveau client {% endblock %}
+
+{% block top_header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}
+
+{% block PageTitles %}
+
+<div class="col-md-5 align-self-center">
+    <h3 class="text-primary">Créer un nouveau client </h3> </div>
+<div class="col-md-7 align-self-center">
+    <button type="button" onclick="ajouter_client()" class="btn btn-success btn-sm btn-flat btn-addon m-b-10 m-l-5"><i class="ti-plus"></i> Sauvegarder</button>
+    <button type="button" class="btn btn-primary btn-flat btn-addon btn-sm m-b-10 m-l-5"><i class="ti-plus"></i> Sauvegarder & Nouveau</button>
+
+</div>
+
+{% endblock %}
+
+ {% block AlertDanger %}
+
+<strong>Veuillez saisir le nom </strong>
+
+{% endblock %}
+
+{% block AlertSuccess %}
+<strong>le client a enregistré avec succès </strong>
+{% endblock %}
+
+ {% block PageContentTitre %}
+<h4>Informations générales</h4>
+{% endblock %}
+  {% block PageContent %}
+{% endblock %}
+{% block javascript %}
+    <script>
+        function alert() {
+            var element=document.getElementById("alert") ;
+            element.style.display="none" ;
+
+        }
+        function alert_succes() {
+            var element=document.getElementById("alert_succe") ;
+            element.style.display="block";
+            $( "#alert_succe" ).fadeOut(3000);
+            window.location="clients.html";
+        }
+        function fermer_alert_succes() {
+            var element=document.getElementById("alert_succe") ;
+            element.style.display="none";
+        }
+        function bdc(){
+            db=openDatabase( "offline" , ' 1' , ' my first database' , 200000 );
+            db.transaction(function (tx) {
+                tx.executeSql("CREATE TABLE clients ( id_client INTEGER  AUTO_INCREMENT PRIMARY KEY, nom VARCHAR(50) ,typ VARCHAR(50)  , cin VARCHAR(50) , email VARCHAR(50) ,cnss VARCHAR(50) ,tel VARCHAR(50) , plafond VARCHAR(50) ,Organisme VARCHAR(50) , num_affiliation VARCHAR(50) , num_immatriculation VARCHAR(50) , adresse VARCHAR(50) , ville VARCHAR(50) ,description VARCHAR(50))");
+
+            });
+        }
+        bdc() ;
+        function ajouter_client() {
+            document.getElementById("alert").style.display = "none";
+            var gestionnaire = document.getElementById("gestionnaire").value;
+            var pwd = document.getElementById("pwd").value;
+            var nom = document.getElementById("nom").value;
+            var cin = document.getElementById("cin").value;
+            var email = document.getElementById("email").value;
+            var CNSS = document.getElementById("CNSS").value;
+            var tel = document.getElementById("tel").value;
+            var plafond = document.getElementById("plafond").value;
+            var adresse = document.getElementById("adresse").value;
+            var comment = document.getElementById("comment").value;
+            var ville = document.getElementById("ville").value;
+            var immatriculation = document.getElementById("immatriculation").value;
+            var affiliation = document.getElementById("affiliation").value;
+            var immatriculation = document.getElementById("immatriculation").value;
+            var organisme = document.getElementById("organisme").value;
+            var id=Date.now();
+            var test;
+            test = true;
+            if (nom == "") {
+                test = false;
+            }
+            if (test == true) {
+                db.transaction(function (tx) {
+                    tx.executeSql('INSERT INTO clients (id_client,nom,typ, cin ,email,cnss,tel, plafond ,organisme, num_affiliation , num_immatriculation , adresse , ville ,description ) VALUES ("' + id + '","' + nom + '","' + pwd + '","' + cin + '","' + email + '","' + CNSS + '","' + tel + '","' + plafond + '","' + organisme + '","' + affiliation + '","' + immatriculation + '","' + adresse + '","' + ville + '","' + comment + '")');
+
+                });
+                alert_succes();
+
+            } else {
+                document.getElementById("alert").style.display = "block";
+                var nom = document.getElementById("nom");
+                nom.style.borderColor="#fc6180" ;
+            }
+        }
+        function input_error() {
+            var nom = document.getElementById("nom");
+            nom.style.borderColor="#e7e7e7";
+        }
+
+
+    </script>
+    <script>
+        shortcut.add("F1",function() {
+            $(".tuto-wrapper").toggle();
+            if($( "#li_client" ).hasClass( "select_raccourci" )==true){
+                $("#li_client").removeClass( "select_raccourci" ) .addClass( "has-arrow  " );
+            }else{
+                $("#li_client").addClass( "has-arrow  select_raccourci" );
+            }
+            if($( "#li_vente" ).hasClass( "select_raccourci" )==true){
+                $("#li_vente").removeClass( "select_raccourci" ) .addClass( "has-arrow  " );
+            }else{
+                $("#li_vente").addClass( "has-arrow  select_raccourci" );
+            }
+            if($( "#li_achat" ).hasClass( "select_raccourci" )==true){
+                $("#li_achat").removeClass( "select_raccourci" ) .addClass( "has-arrow  " );
+            }else{
+                $("#li_achat").addClass( "has-arrow  select_raccourci" );
+            }
+
+        });
+        var x = $("#li_client").position();
+        var x1 = $("#li_vente").position();
+        var x2 = $("#li_achat").position();
+      //  var x = $("#li_client").position();
+
+ document.getElementById("raccourci_client").style.top=x.top+5+'px' ;
+ document.getElementById("raccourci_vente").style.top=x1.top+5+'px' ;
+ document.getElementById("raccourci_achat").style.top=x2.top+5+'px' ;
+
+    </script>
+{% endblock %}
+
